@@ -1,21 +1,23 @@
 import 'dart:convert';
 
+// Definición de la clase Movie
 class Movie {
-  bool adult;
-  String backdropPath;
-  List<int> genreIds;
-  int id;
-  String originalLanguage;
-  String originalTitle;
-  String overview;
-  double popularity;
-  String posterPath;
-  DateTime releaseDate;
-  String title;
-  bool video;
-  double voteAverage;
-  int voteCount;
+  bool adult; // Indica si la película es para adultos o no
+  String backdropPath; // Ruta del fondo de la película
+  List<int> genreIds; // Lista de IDs de géneros asociados a la película
+  int id; // ID único de la película
+  String originalLanguage; // Idioma original de la película
+  String originalTitle; // Título original de la película
+  String overview; // Descripción general de la película
+  double popularity; // Popularidad de la película
+  String posterPath; // Ruta del póster de la película
+  DateTime releaseDate; // Fecha de lanzamiento de la película
+  String title; // Título de la película
+  bool video; // Indica si la película tiene video o no
+  double voteAverage; // Promedio de votos para la película
+  int voteCount; // Cantidad total de votos para la película
 
+  // Constructor de la clase Movie
   Movie({
     required this.adult,
     required this.backdropPath,
@@ -33,6 +35,7 @@ class Movie {
     required this.voteCount,
   });
 
+  // Método para obtener la URL completa del póster de la película
   get fullPosterImg {
     if (this.posterPath != null) {
       return 'https://image.tmdb.org/t/p/w500${this.posterPath}';
@@ -40,10 +43,17 @@ class Movie {
     return 'https://i.stack.imgur.com/GNhxO.png';
   }
 
+  get fullBackDropPath {
+    if (this.backdropPath != null) {
+      return 'https://image.tmdb.org/t/p/w500${this.backdropPath}';
+    }
+    return 'https://i.stack.imgur.com/GNhxO.png';
+  }
+
+  // Factoría para crear una instancia de Movie desde un JSON crudo
   factory Movie.fromRawJson(String str) => Movie.fromJson(json.decode(str));
 
-  //String toRawJson() => json.encode(toJson());
-
+  // Factoría para crear una instancia de Movie desde un mapa JSON
   factory Movie.fromJson(Map<String, dynamic> json) => Movie(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
@@ -60,39 +70,4 @@ class Movie {
         voteAverage: json["vote_average"]?.toDouble(),
         voteCount: json["vote_count"],
       );
-/*
-  Map<String, dynamic> toJson() => {
-        "adult": adult,
-        "backdrop_path": backdropPath,
-        "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
-        "id": id,
-        "original_language": originalLanguageValues.reverse[originalLanguage],
-        "original_title": originalTitle,
-        "overview": overview,
-        "popularity": popularity,
-        "poster_path": posterPath,
-        "release_date":
-            "${releaseDate.year.toString().padLeft(4, '0')}-${releaseDate.month.toString().padLeft(2, '0')}-${releaseDate.day.toString().padLeft(2, '0')}",
-        "title": title,
-        "video": video,
-        "vote_average": voteAverage,
-        "vote_count": voteCount,
-      };
-}*/
-/*
-enum OriginalLanguage { EN, ZH }
-
-final originalLanguageValues =
-    EnumValues({"en": OriginalLanguage.EN, "zh": OriginalLanguage.ZH});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }*/
 }
